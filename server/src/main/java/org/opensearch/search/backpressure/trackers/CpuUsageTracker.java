@@ -81,6 +81,22 @@ public class CpuUsageTracker extends TaskResourceUsageTracker {
         private final long currentMax;
         private final long currentAvg;
 
+        /**
+         * Private constructor that takes a builder.
+         * This is the sole entry point for creating a new Stats object.
+         * @param builder The builder instance containing all the values.
+         */
+        private Stats(Builder builder){
+            this.cancellationCount = builder.cancellationCount;
+            this.currentMax = builder.currentMax;
+            this.currentAvg = builder.currentAvg;
+        }
+
+        /**
+         * This constructor will be deprecated in 4.0
+         * Use Builder to create Stats object
+         */
+        @Deprecated
         public Stats(long cancellationCount, long currentMax, long currentAvg) {
             this.cancellationCount = cancellationCount;
             this.currentMax = currentMax;
@@ -89,6 +105,41 @@ public class CpuUsageTracker extends TaskResourceUsageTracker {
 
         public Stats(StreamInput in) throws IOException {
             this(in.readVLong(), in.readVLong(), in.readVLong());
+        }
+
+        /**DirectoryFileTransferTracker
+         * Builder for the {@link Stats} class.
+         * Provides a fluent API for constructing a Stats object.
+         */
+        public static class Builder {
+            private long cancellationCount = 0;
+            private long currentMax = 0;
+            private long currentAvg = 0;
+
+            public Builder() {}
+
+            public Builder cancellationCount(long count) {
+                this.cancellationCount = count;
+                return this;
+            }
+
+            public Builder currentMax(long max) {
+                this.currentMax = max;
+                return this;
+            }
+
+            public Builder currentAvg(long avg) {
+                this.currentAvg = avg;
+                return this;
+            }
+
+            /**
+             * Creates a {@link Stats} object from the builder's current state.
+             * @return A new Stats instance.
+             */
+            public Stats build() {
+                return new Stats(this);
+            }
         }
 
         @Override

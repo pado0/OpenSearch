@@ -282,8 +282,77 @@ public class IndicesQueryCache implements QueryCache, Closeable {
         volatile long cacheCount;
         volatile long cacheSize;
 
+        /**
+         * Private constructor that takes a builder.
+         * This is the sole entry point for creating a new Stats object.
+         * @param builder The builder instance containing all the values.
+         */
+        private Stats(Builder builder){
+            this.shardId = builder.shardId;
+            this.ramBytesUsed = builder.ramBytesUsed;
+            this.hitCount = builder.hitCount;
+            this.missCount = builder.missCount;
+            this.cacheCount = builder.cacheCount;
+            this.cacheSize = builder.cacheSize;
+        }
+
+        /**
+         * This constructor will be deprecated in 4.0
+         * Use Builder to create Stats object
+         */
+        @Deprecated
         Stats(ShardId shardId) {
             this.shardId = shardId;
+        }
+
+        /**
+         * Builder for the {@link Stats} class.
+         * Provides a fluent API for constructing a Stats object.
+         */
+        public static class Builder {
+            private final ShardId shardId;
+            private long ramBytesUsed = 0;
+            private long hitCount = 0;
+            private long missCount = 0;
+            private long cacheCount = 0;
+            private long cacheSize = 0;
+
+            public Builder(ShardId shardId) {
+                this.shardId = shardId;
+            }
+
+            public Builder ramBytesUsed(long used) {
+                this.ramBytesUsed = used;
+                return this;
+            }
+
+            public Builder hitCount(long count) {
+                this.hitCount = count;
+                return this;
+            }
+
+            public Builder missCount(long count) {
+                this.missCount = count;
+                return this;
+            }
+
+            public Builder cacheCount(long count) {
+                this.cacheCount = count;
+                return this;
+            }
+
+            public Builder cacheSize(long size) {
+                this.cacheSize = size;
+                return this;
+            }
+
+            /**
+             * Creates a {@link Stats} object from the builder's current state.
+             * @return A new Stats instance.
+             */
+            public Stats build() {
+                return new Stats(this);
+            }
         }
 
         QueryCacheStats toQueryCacheStats() {

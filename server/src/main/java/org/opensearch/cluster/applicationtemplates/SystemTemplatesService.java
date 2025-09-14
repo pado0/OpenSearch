@@ -162,10 +162,61 @@ public class SystemTemplatesService implements LocalNodeClusterManagerListener {
         private final long failedLoadingTemplates;
         private final long failedLoadingRepositories;
 
+        /**
+         * Private constructor that takes a builder.
+         * This is the sole entry point for creating a new Stats object.
+         * @param builder The builder instance containing all the values.
+         */
+        private Stats(Builder builder) {
+            this.templatesLoaded = builder.templatesLoaded;
+            this.failedLoadingTemplates = builder.failedLoadingTemplates;
+            this.failedLoadingRepositories = builder.failedLoadingRepositories;
+        }
+
+        /**
+         * This constructor will be deprecated in 4.0
+         * Use Builder to create Stats object
+         */
+        @Deprecated
         public Stats(long templatesLoaded, long failedLoadingTemplates, long failedLoadingRepositories) {
             this.templatesLoaded = templatesLoaded;
             this.failedLoadingTemplates = failedLoadingTemplates;
             this.failedLoadingRepositories = failedLoadingRepositories;
+        }
+
+        /**
+         * Builder for the {@link Stats} class.
+         * Provides a fluent API for constructing a Stats object.
+         */
+        public static class Builder {
+            private long templatesLoaded = 0;
+            private long failedLoadingTemplates = 0;
+            private long failedLoadingRepositories = 0;
+
+            public Builder() {}
+            public Builder templatesLoaded(long loaded){
+                this.templatesLoaded = loaded;
+                return this;
+            }
+
+            public Builder failedLoadingTemplates(long templates){
+                this.failedLoadingTemplates = templates;
+                return this;
+            }
+
+            public Builder failedLoadingRepositories(long repositories){
+                this.failedLoadingRepositories = repositories;
+                return this;
+            }
+
+            /**
+             * Creates a {@link Stats} object from the builder's current state.
+             * @return A new Stats instance.
+             */
+            public Stats build() {
+                return new Stats(this);
+            }
+
         }
 
         public long getTemplatesLoaded() {

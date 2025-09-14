@@ -391,6 +391,38 @@ public class RemoteTranslogTransferTracker extends RemoteTransferTracker {
          */
         public final double downloadTimeMovingAverage;
 
+        /**
+         * Private constructor that takes a builder.
+         * This is the sole entry point for creating a new Stats object.
+         * @param builder The builder instance containing all the values.
+         */
+        private Stats (Builder builder) {
+            this.shardId = builder.shardId;
+            this.lastSuccessfulUploadTimestamp = builder.lastSuccessfulUploadTimestamp;
+            this.totalUploadsStarted = builder.totalUploadsStarted;
+            this.totalUploadsFailed = builder.totalUploadsFailed;
+            this.totalUploadsSucceeded = builder.totalUploadsSucceeded;
+            this.uploadBytesStarted = builder.uploadBytesStarted;
+            this.uploadBytesFailed = builder.uploadBytesFailed;
+            this.uploadBytesSucceeded = builder.uploadBytesSucceeded;
+            this.totalUploadTimeInMillis = builder.totalUploadTimeInMillis;
+            this.uploadBytesMovingAverage = builder.uploadBytesMovingAverage;
+            this.uploadBytesPerSecMovingAverage = builder.uploadBytesPerSecMovingAverage;
+            this.uploadTimeMovingAverage = builder.uploadTimeMovingAverage;
+            this.lastSuccessfulDownloadTimestamp = builder.lastSuccessfulDownloadTimestamp;
+            this.totalDownloadsSucceeded = builder.totalDownloadsSucceeded;
+            this.downloadBytesSucceeded = builder.downloadBytesSucceeded;
+            this.totalDownloadTimeInMillis = builder.totalDownloadTimeInMillis;
+            this.downloadBytesMovingAverage = builder.downloadBytesMovingAverage;
+            this.downloadBytesPerSecMovingAverage = builder.downloadBytesPerSecMovingAverage;
+            this.downloadTimeMovingAverage = builder.downloadTimeMovingAverage;
+        }
+
+        /**
+         * This constructor will be deprecated in 4.0
+         * Use Builder to create Stats object
+         */
+        @Deprecated
         public Stats(
             ShardId shardId,
             long lastSuccessfulUploadTimestamp,
@@ -457,6 +489,137 @@ public class RemoteTranslogTransferTracker extends RemoteTransferTracker {
             this.downloadBytesMovingAverage = in.readDouble();
             this.downloadBytesPerSecMovingAverage = in.readDouble();
             this.downloadTimeMovingAverage = in.readDouble();
+        }
+
+        /**
+         * Builder for the {@link Stats} class.
+         * Provides a fluent API for constructing a Stats object.
+         */
+        public static class Builder {
+            private ShardId shardId = null;
+            private long lastSuccessfulUploadTimestamp = 0;
+            private long totalUploadsStarted = 0;
+            private long totalUploadsFailed = 0;
+            private long totalUploadsSucceeded = 0;
+            private long uploadBytesStarted = 0;
+            private long uploadBytesFailed = 0;
+            private long uploadBytesSucceeded = 0;
+            private long totalUploadTimeInMillis = 0;
+            private double uploadBytesMovingAverage = 0;
+            private double uploadBytesPerSecMovingAverage = 0;
+            private double uploadTimeMovingAverage = 0;
+            private long lastSuccessfulDownloadTimestamp = 0;
+            private long totalDownloadsSucceeded = 0;
+            private long downloadBytesSucceeded = 0;
+            private long totalDownloadTimeInMillis = 0;
+            private double downloadBytesMovingAverage = 0;
+            private double downloadBytesPerSecMovingAverage = 0;
+            private double downloadTimeMovingAverage = 0;
+
+            public Builder() {}
+
+            public Stats.Builder shardId(ShardId shardId) {
+                this.shardId = shardId;
+                return this;
+            }
+
+            public Stats.Builder lastSuccessfulUploadTimestamp(long timestamp) {
+                this.lastSuccessfulUploadTimestamp = timestamp;
+                return this;
+            }
+
+            public Stats.Builder totalUploadsStarted(long started) {
+                this.totalUploadsStarted = started;
+                return this;
+            }
+
+            public Stats.Builder totalUploadsFailed(long failed) {
+                this.totalUploadsFailed = failed;
+                return this;
+            }
+
+            public Stats.Builder totalUploadsSucceeded(long succeeded) {
+                this.totalUploadsSucceeded = succeeded;
+                return this;
+            }
+
+            public Stats.Builder uploadBytesStarted(long started) {
+                this.uploadBytesStarted = started;
+                return this;
+            }
+
+            public Stats.Builder uploadBytesFailed(long failed) {
+                this.uploadBytesFailed = failed;
+                return this;
+            }
+
+            public Stats.Builder uploadBytesSucceeded(long succeeded) {
+                this.uploadBytesSucceeded = succeeded;
+                return this;
+            }
+
+            public Stats.Builder totalUploadTimeInMillis(long time) {
+                this.totalUploadTimeInMillis = time;
+                return this;
+            }
+
+            public Stats.Builder uploadBytesMovingAverage(double average) {
+                this.uploadBytesMovingAverage = average;
+                return this;
+            }
+
+            public Stats.Builder uploadBytesPerSecMovingAverage(double average) {
+                this.uploadBytesPerSecMovingAverage = average;
+                return this;
+            }
+
+            public Stats.Builder uploadTimeMovingAverage(double average) {
+                this.uploadTimeMovingAverage = average;
+                return this;
+            }
+
+            public Stats.Builder lastSuccessfulDownloadTimestamp(long timestamp) {
+                this.lastSuccessfulDownloadTimestamp = timestamp;
+                return this;
+            }
+
+            public Stats.Builder totalDownloadsSucceeded(long succeeded) {
+                this.totalDownloadsSucceeded = succeeded;
+                return this;
+            }
+
+            public Stats.Builder downloadBytesSucceeded(long succeeded) {
+                this.downloadBytesSucceeded = succeeded;
+                return this;
+            }
+
+            public Stats.Builder totalDownloadTimeInMillis(long time) {
+                this.totalDownloadTimeInMillis = time;
+                return this;
+            }
+
+            public Stats.Builder downloadBytesMovingAverage(double average) {
+                this.downloadBytesMovingAverage = average;
+                return this;
+            }
+
+            public Stats.Builder downloadBytesPerSecMovingAverage(double average) {
+                this.downloadBytesPerSecMovingAverage = average;
+                return this;
+            }
+
+            public Stats.Builder downloadTimeMovingAverage(double average) {
+                this.downloadTimeMovingAverage = average;
+                return this;
+            }
+
+            /**
+             * Creates a {@link Stats} object from the builder's current state.
+             * @return A new Stats instance.
+             */
+            public Stats build() {
+                return new Stats(this);
+            }
         }
 
         @Override

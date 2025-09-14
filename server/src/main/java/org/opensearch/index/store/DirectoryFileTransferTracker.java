@@ -181,6 +181,27 @@ public class DirectoryFileTransferTracker {
         public final long lastSuccessfulTransferInBytes;
         public final double transferredBytesPerSecMovingAverage;
 
+        /**
+         * Private constructor that takes a builder.
+         * This is the sole entry point for creating a new Stats object.
+         * @param builder The builder instance containing all the values.
+         */
+        private Stats(Builder builder){
+            this.transferredBytesStarted = builder.transferredBytesStarted;
+            this.transferredBytesFailed = builder.transferredBytesFailed;
+            this.transferredBytesSucceeded = builder.downloadBytesSucceeded;
+            this.lastTransferTimestampMs = builder.lastTransferTimestampMs;
+            this.totalTransferTimeInMs = builder.totalTransferTimeInMs;
+            this.transferredBytesMovingAverage = builder.transferredBytesMovingAverage;
+            this.lastSuccessfulTransferInBytes = builder.lastSuccessfulTransferInBytes;
+            this.transferredBytesPerSecMovingAverage = builder.transferredBytesPerSecMovingAverage;
+        }
+
+        /**
+         * This constructor will be deprecated in 4.0
+         * Use Builder to create Stats object
+         */
+        @Deprecated
         public Stats(
             long transferredBytesStarted,
             long transferredBytesFailed,
@@ -212,6 +233,70 @@ public class DirectoryFileTransferTracker {
             this.transferredBytesPerSecMovingAverage = in.readDouble();
         }
 
+        /**
+         * Builder for the {@link Stats} class.
+         * Provides a fluent API for constructing a Stats object.
+         */
+        public static class Builder {
+            private long transferredBytesStarted = 0;
+            private long transferredBytesFailed = 0;
+            private long downloadBytesSucceeded = 0;
+            private long lastTransferTimestampMs = 0;
+            private long totalTransferTimeInMs = 0;
+            private double transferredBytesMovingAverage = 0;
+            private long lastSuccessfulTransferInBytes = 0;
+            private double transferredBytesPerSecMovingAverage = 0;
+
+            public Builder() {}
+
+            public Builder transferredBytesStarted(long started) {
+                this.transferredBytesStarted = started;
+                return this;
+            }
+
+            public Builder transferredBytesFailed(long failed) {
+                this.transferredBytesFailed = failed;
+                return this;
+            }
+
+            public Builder downloadBytesSucceeded(long succeeded) {
+                this.downloadBytesSucceeded = succeeded;
+                return this;
+            }
+
+            public Builder lastTransferTimestampMs(long timestamp) {
+                this.lastTransferTimestampMs = timestamp;
+                return this;
+            }
+
+            public Builder totalTransferTimeInMs(long time) {
+                this.totalTransferTimeInMs = time;
+                return this;
+            }
+
+            public Builder transferredBytesMovingAverage(double average) {
+                this.transferredBytesMovingAverage = average;
+                return this;
+            }
+
+            public Builder lastSuccessfulTransferInBytes(long transfer) {
+                this.lastSuccessfulTransferInBytes = transfer;
+                return this;
+            }
+
+            public Builder transferredBytesPerSecMovingAverage(double average) {
+                this.transferredBytesPerSecMovingAverage = average;
+                return this;
+            }
+
+            /**
+             * Creates a {@link Stats} object from the builder's current state.
+             * @return A new Stats instance.
+             */
+            public Stats build() {
+                return new Stats(this);
+            }
+        }
         @Override
         public void writeTo(StreamOutput out) throws IOException {
             out.writeLong(transferredBytesStarted);

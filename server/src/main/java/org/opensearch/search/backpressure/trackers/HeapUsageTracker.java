@@ -143,6 +143,23 @@ public class HeapUsageTracker extends TaskResourceUsageTracker {
         private final long currentAvg;
         private final long rollingAvg;
 
+        /**
+         * Private constructor that takes a builder.
+         * This is the sole entry point for creating a new Stats object.
+         * @param builder The builder instance containing all the values.
+         */
+        private Stats(Builder builder){
+            this.cancellationCount = builder.cancellationCount;
+            this.currentMax = builder.currentMax;
+            this.currentAvg = builder.currentAvg;
+            this.rollingAvg = builder.rollingAvg;
+        }
+
+        /**
+         * This constructor will be deprecated in 4.0
+         * Use Builder to create Stats object
+         */
+        @Deprecated
         public Stats(long cancellationCount, long currentMax, long currentAvg, long rollingAvg) {
             this.cancellationCount = cancellationCount;
             this.currentMax = currentMax;
@@ -154,6 +171,47 @@ public class HeapUsageTracker extends TaskResourceUsageTracker {
             this(in.readVLong(), in.readVLong(), in.readVLong(), in.readVLong());
         }
 
+        /**
+         * Builder for the {@link Stats} class.
+         * Provides a fluent API for constructing a Stats object.
+         */
+        public static class Builder {
+            private long cancellationCount = 0;
+            private long currentMax = 0;
+            private long currentAvg = 0;
+            private long rollingAvg = 0;
+
+            public Builder() {
+            }
+
+            public Builder cancellationCount(long count) {
+                this.cancellationCount = count;
+                return this;
+            }
+
+            public Builder currentMax(long max) {
+                this.currentMax = max;
+                return this;
+            }
+
+            public Builder currentAvg(long avg) {
+                this.currentAvg = avg;
+                return this;
+            }
+
+            public Builder rollingAvg(long avg) {
+                this.rollingAvg = avg;
+                return this;
+            }
+
+            /**
+             * Creates a {@link Stats} object from the builder's current state.
+             * @return A new Stats instance.
+             */
+            public Stats build() {
+                return new Stats(this);
+            }
+        }
         @Override
         public XContentBuilder toXContent(XContentBuilder builder, Params params) throws IOException {
             return builder.startObject()
