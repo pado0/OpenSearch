@@ -1413,15 +1413,14 @@ public class NodeStatsTests extends OpenSearchTestCase {
                     .resolve(shardRouting.shardId().getIndex().getUUID())
                     .resolve(String.valueOf(shardRouting.shardId().id()));
 
-                ShardStats shardStats = new ShardStats(
-                    shardRouting,
-                    new ShardPath(false, path, path, shardRouting.shardId()),
-                    createRandomCommonStats(),
-                    null,
-                    null,
-                    null,
-                    null
-                );
+                ShardStats shardStats = new ShardStats.Builder().shardRouting(shardRouting)
+                    .shardPath(new ShardPath(false, path, path, shardRouting.shardId()))
+                    .commonStats(createRandomCommonStats())
+                    .commitStats(null)
+                    .seqNoStats(null)
+                    .retentionLeaseStats(null)
+                    .pollingIngestStats(null)
+                    .build();
                 List<ShardStats> shardStatsList = new ArrayList<>();
                 shardStatsList.add(shardStats);
                 IndexShardStats indexShardStats = new IndexShardStats(shardRouting.shardId(), shardStatsList.toArray(new ShardStats[0]));
@@ -1465,15 +1464,14 @@ public class NodeStatsTests extends OpenSearchTestCase {
                 .resolve(shardRouting.shardId().getIndex().getUUID())
                 .resolve(String.valueOf(shardRouting.shardId().id()));
 
-            ShardStats shardStats = new ShardStats(
-                shardRouting,
-                new ShardPath(false, path, path, shardRouting.shardId()),
-                commonStats,
-                null,
-                null,
-                null,
-                null
-            );
+            ShardStats shardStats = new ShardStats.Builder().shardRouting(shardRouting)
+                .shardPath(new ShardPath(false, path, path, shardRouting.shardId()))
+                .commonStats(commonStats)
+                .commitStats(null)
+                .seqNoStats(null)
+                .retentionLeaseStats(null)
+                .pollingIngestStats(null)
+                .build();
             IndexShardStats indexShardStats = new IndexShardStats(shardRouting.shardId(), new ShardStats[] { shardStats });
             indexShardStatsList.add(indexShardStats);
         }
