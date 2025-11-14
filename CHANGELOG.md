@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add async periodic flush task support for pull-based ingestion ([#19878](https://github.com/opensearch-project/OpenSearch/pull/19878))
 - Add support for context aware segments ([#19098](https://github.com/opensearch-project/OpenSearch/pull/19098))
 - Implement GRPC FunctionScoreQuery ([#19888](https://github.com/opensearch-project/OpenSearch/pull/19888))
+- Support pull-based ingestion message mappers and raw payload support ([#19765](https://github.com/opensearch-project/OpenSearch/pull/19765)]
 
 ### Changed
 - Faster `terms` query creation for `keyword` field with index and docValues enabled ([#19350](https://github.com/opensearch-project/OpenSearch/pull/19350))
@@ -55,6 +56,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update NoOpResult constructors in the Engine to be public ([#19950](https://github.com/opensearch-project/OpenSearch/pull/19950))
 - Refactor the TranslogStats and RequestCacheStats class to use the Builder pattern instead of constructors ([#19961](https://github.com/opensearch-project/OpenSearch/pull/19961))
 - Refactor the ShardStats, WarmerStats and IndexingPressureStats class to use the Builder pattern instead of constructors ([#19966](https://github.com/opensearch-project/OpenSearch/pull/19966))
+- Refactor the IndexPressutreStats, DeviceStats and TransportStats class to use the Builder pattern instead of constructors ([#19991](https://github.com/opensearch-project/OpenSearch/pull/19991))
 
 ### Fixed
 - Fix Allocation and Rebalance Constraints of WeightFunction are incorrectly reset ([#19012](https://github.com/opensearch-project/OpenSearch/pull/19012))
@@ -113,6 +115,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Deprecated existing constructors in FieldDataStats and CompletionStats in favor of the new Builder ([#19936](https://github.com/opensearch-project/OpenSearch/pull/19936))
 - Deprecated existing constructors in TranslogStats and RequestCacheStats in favor of the new Builder ([#19961](https://github.com/opensearch-project/OpenSearch/pull/19961))
 - Deprecated existing constructors in ShardStats, WarmerStats and IndexingPressureStats in favor of the new Builder ([#19966](https://github.com/opensearch-project/OpenSearch/pull/19966))
+- Deprecated existing constructors in IndexPressutreStats, DeviceStats and TransportStats in favor of the new Builder ([#19991](https://github.com/opensearch-project/OpenSearch/pull/19991))
 
 ### Removed
 
